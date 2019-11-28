@@ -5,23 +5,19 @@ import products.Car;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
-public class Producer implements Runnable {
+public class CarProducer implements Runnable {
 
     private final Queue<Car> conveyor;
     private int i = 0;
 
-    public Producer(Queue<Car> conveyor) {
+    public CarProducer(Queue<Car> conveyor) {
         this.conveyor = conveyor;
     }
 
     public void run() {
         while (true) {
             synchronized (conveyor) {
-                try {
-                    TimeUnit.MILLISECONDS.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                delayBetweenOperations();
 
                 conveyor.add(new Car());
                 System.out.println(i++ + " New car body was created");
@@ -30,6 +26,14 @@ public class Producer implements Runnable {
                     startConveyor();
                 }
             }
+        }
+    }
+
+    private void delayBetweenOperations() {
+        try {
+            TimeUnit.MILLISECONDS.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

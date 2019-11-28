@@ -5,6 +5,7 @@ public class SerialNumberGenerator {
 
     public long nextSerialNumber() {
         serialNumberGenerator++;
+
         return serialNumberGenerator;
     }
 }

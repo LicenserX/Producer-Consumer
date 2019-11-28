@@ -6,13 +6,13 @@ import products.Car;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
-public class Consumer implements Runnable{
+public class CarConsumer implements Runnable{
 
     private final Queue<Car> conveyor;
     private final SerialNumberGenerator generator;
     private int i = 0;
 
-    public Consumer(Queue<Car> conveyor, SerialNumberGenerator generator) {
+    public CarConsumer(Queue<Car> conveyor, SerialNumberGenerator generator) {
         this.conveyor = conveyor;
         this.generator = generator;
     }
