@@ -1,7 +1,9 @@
-import consumers.CarConsumer;
-import genarator.SerialNumberGenerator;
-import products.Car;
-import produsers.CarProducer;
+package com.concurrency;
+
+import com.concurrency.consumers.CarConsumer;
+import com.concurrency.genarator.SerialNumberGenerator;
+import com.concurrency.products.Car;
+import com.concurrency.produsers.CarProducer;
 
 import java.util.LinkedList;
 import java.util.Queue;

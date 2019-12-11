@@ -1,6 +1,6 @@
-package produsers;
+package com.concurrency.produsers;
 
-import products.Car;
+import com.concurrency.products.Car;
 
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
@@ -15,7 +15,7 @@ public class CarProducer implements Runnable {
     }
 
     public void run() {
-        while (true) {
+        while (i < 500) {
             synchronized (conveyor) {
                 delayBetweenOperations();
 

@@ -1,4 +1,4 @@
-package utils;
+package com.concurrency.utils;
 
 public class Converter {
 

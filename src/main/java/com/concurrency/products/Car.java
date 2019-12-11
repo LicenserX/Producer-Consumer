@@ -1,6 +1,6 @@
-package products;
+package com.concurrency.products;
 
-import utils.Converter;
+import com.concurrency.utils.Converter;
 
 public class Car {
     private String name;

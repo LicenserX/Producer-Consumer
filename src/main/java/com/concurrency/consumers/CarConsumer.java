@@ -1,7 +1,7 @@
-package consumers;
+package com.concurrency.consumers;
 
-import genarator.SerialNumberGenerator;
-import products.Car;
+import com.concurrency.genarator.SerialNumberGenerator;
+import com.concurrency.products.Car;
 
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
@@ -18,7 +18,7 @@ public class CarConsumer implements Runnable{
     }
 
     public void run() {
-        while (true) {
+        while (i < 500) {
             synchronized (conveyor) {
                 try {
                     if (conveyor.isEmpty()) {
