@@ -8,37 +8,31 @@ import java.util.concurrent.TimeUnit;
 public class CarProducer implements Runnable {
 
     private final Queue<Car> conveyor;
-    private int i = 0;
+    private final int maxAmount;
+    private final int timeout;
 
-    public CarProducer(Queue<Car> conveyor) {
+    public CarProducer(Queue<Car> conveyor, int maxAmount, int timeout) {
         this.conveyor = conveyor;
+        this.maxAmount = maxAmount;
+        this.timeout = timeout;
     }
 
     public void run() {
-        while (i < 500) {
+        while (true) {
             synchronized (conveyor) {
-                delayBetweenOperations();
-
-                conveyor.add(new Car());
-                System.out.println(i++ + " New car body was created");
-
-                if (conveyor.size() > 10) {
-                    startConveyor();
+                try {
+                    TimeUnit.MILLISECONDS.sleep(timeout);
+                    while (conveyor.size() >= maxAmount) {
+                        conveyor.wait();
+                    }
+                    Car car = new Car();
+                    conveyor.add(car);
+                    conveyor.notifyAll();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }
     }
 
-    private void delayBetweenOperations() {
-        try {
-            TimeUnit.MILLISECONDS.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void startConveyor() {
-        System.out.println("More then 10 car bodies was created, notifyAll...");
-        conveyor.notifyAll();
-    }
 }

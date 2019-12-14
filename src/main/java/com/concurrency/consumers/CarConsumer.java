@@ -1,57 +1,35 @@
 package com.concurrency.consumers;
 
-import com.concurrency.genarator.SerialNumberGenerator;
 import com.concurrency.products.Car;
 
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
-public class CarConsumer implements Runnable{
+public class CarConsumer implements Runnable {
 
     private final Queue<Car> conveyor;
-    private final SerialNumberGenerator generator;
-    private int i = 0;
+    private final int timeout;
 
-    public CarConsumer(Queue<Car> conveyor, SerialNumberGenerator generator) {
+    public CarConsumer(Queue<Car> conveyor, int timeout) {
         this.conveyor = conveyor;
-        this.generator = generator;
+        this.timeout = timeout;
     }
 
     public void run() {
-        while (i < 500) {
+        while (true) {
             synchronized (conveyor) {
                 try {
-                    if (conveyor.isEmpty()) {
-                        stopConveyor();
+                    while (conveyor.isEmpty()) {
+                        conveyor.wait();
                     }
-                    creatingCar();
+                    Car car = conveyor.poll();
+                    TimeUnit.MILLISECONDS.sleep(timeout);
+                    System.out.println("Name and serial were added. Car is ready.");
+                    conveyor.notifyAll();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-                Car car = conveyor.poll();
-                System.out.println(i++ + " The car was taken from conveyor.");
-
-                if (car != null) {
-                    createTechnicalPassport(car);
-                    System.out.println("Name and serial were added. Car is ready.");
-                }
             }
         }
-    }
-
-    private void createTechnicalPassport(Car car) {
-        car.setName("Nissan-GTR.");
-        car.setSerialNumber(generator.nextSerialNumber());
-    }
-
-    private void creatingCar() throws InterruptedException {
-        System.out.println("The car is being built...");
-        TimeUnit.MILLISECONDS.sleep(500);
-    }
-
-    private void stopConveyor() throws InterruptedException {
-        System.out.println("No cars at the conveyor, waite...");
-        conveyor.wait();
     }
 }
