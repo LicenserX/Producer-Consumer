@@ -24,7 +24,7 @@ public class TestThatMaxNumberOfQueueElementsNoMoreThanMaxAmountVariable {
 
     @Actor
     public void writer_1() {
-        CarProducer carProducer = new CarProducer(conveyor, 200, 0);
+        CarProducer carProducer = new CarProducer(conveyor, 200, 200);
         new Thread(carProducer).start();
     }
 

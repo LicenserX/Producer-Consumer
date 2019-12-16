@@ -29,7 +29,7 @@ public class TestThatCarConsumerHasWaiteStateIfQueueIsEmpty {
 
     @Actor
     public void reader_1() {
-        CarConsumer carConsumer = new CarConsumer(conveyor, 0);
+        CarConsumer carConsumer = new CarConsumer(conveyor, 200);
         new Thread(carConsumer).start();
     }
 
