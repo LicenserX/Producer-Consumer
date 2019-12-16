@@ -34,5 +34,4 @@ public class CarProducer implements Runnable {
             }
         }
     }
-
 }
